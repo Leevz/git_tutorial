@@ -1,0 +1,26 @@
+##############
+# Java files #
+##############
+*.class
+*.jar
+*.war
+*.ear
+
+#############
+# IDE files #
+#############
+.idea/
+*.iml
+out/
+
+.metadata
+bin/
+tmp/
+.project
+
+############
+# OS Files #
+############
+Thumbs.db
+Desktop.ini
+.DS_Store
