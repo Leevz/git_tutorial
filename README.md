@@ -16,8 +16,8 @@ message describing the changes.
 Before you can copy this repository to your computer, you'll have to make sure git and the Git Shell are installed. This
 can be done in two ways:
 
-    1. Install with [GitHub Desktop](https://desktop.github.com/)
-    2. Install with [Git for Windows](https://git-for-windows.github.io/)
+1. With [GitHub Desktop](https://desktop.github.com/)
+2. With [Git for Windows](https://git-for-windows.github.io/)
 
 Installing GitHub Desktop will probably be helpful since you can log into your GitHub account which will set up the git
 shell to use your account without any additional configuration.
