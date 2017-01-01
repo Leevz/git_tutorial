@@ -77,7 +77,7 @@ Now go back the Git Shell and type the following:
 
 You should see something similar to the following:
 
-![Git Shell with changes](https://github.com/dmbertoglio/git_tutorial/raw/git_changes.png "Git Shell prompt with changes")
+![Git Shell with changes](raw/git_changes.png?raw=true "Git Shell prompt with changes")
 
 `git status` show you the current state of the repository in detail. Git breaks down you changes into multiple 
 categories, change not staged for commit are any files that have been changed and are currently tracked by git. It also 
