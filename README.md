@@ -1,6 +1,6 @@
 # Git Tutorial 
-A short git tutorial, tailored for using the Git Shell on Windows with GitHub. If you're using macOS or a Linux 
-distribution instead just use your Terminal with git installed.
+An introductory git tutorial, tailored for using the Git Shell on Windows with GitHub. If you're using macOS or a Linux 
+distribution you can just use your Terminal with git installed.
 
 ## What is Git?
 Git is a version control system (VCS) that tracks changes to files used by multiple people. It is mostly used by 
@@ -108,10 +108,10 @@ short message describing the changes. Good practice in commit messages is to hav
 line, a blank line, then any number of further description that you think would help teammates understand your changes.
 For example:
 
-```
+```text
 Change print text
-
-Updated the print message of Main.java from "Hello world!" to "Hellow Git!"
+ 
+Updated the print message of Main.java from "Hello world!" to "Hello Git!"
 ```
 
 While this is more descriptive than necessary for this particular commit, it's generally good to follow this practice 
@@ -126,3 +126,109 @@ on your machine. So now go ahead and publish your changes to GitHub with:
 ```
 
 This will push your changes up to GitHub where any of your teammates could retrieve your changes from.
+
+### Getting Changes From Other Developers
+This section will tell you how to get changes made by other people from GitHub. You can run these commands, however they
+won't really do anything since you're the only person making changes to your repository. If you're very interested in
+seeing the results you can clone the repository to a different folder and push a commit. 
+
+To get all changes made to the GitHub repository (also known as the remote repository) since you cloned it you use the
+following:
+
+```bash
+> git fetch
+```
+
+This results in the following:
+
+![Git fetch results](raw/git_fetch.png?raw=true "Results of git fetch")
+
+Git will connect to GitHub and download changes to the repository. However, to prevent any loss by local commits, git 
+doesn't actually apply those changes when you `git fetch`. This is a safety feature so that you can handle any potential
+conflicts, or different changes to the same line of code made by different people. So to acctually apply the changes you
+run the following:
+
+```bash
+> git rebase
+```
+
+Which results in the following:
+
+![Git rebase results](raw/git_rebase.png?raw=true "Results of git rebase")
+
+Running `git rebase` will apply the changes that `git fetch` retrieved from GitHub in order of commit time. If there are
+any conflicts git will stop applying changes, ask you to resolve them by changing the file to the correct state, and 
+then you continue the rebase until the repository has all commits made in the remote and all local commits. Don't worry
+if conflicts don't make sense yet, we'll handle one later.
+
+## Branches
+Branches are an extremely useful feature of git. A branch is a series of commits that can be separated from other
+commits. Every git repository begins with a single branch, the master branch, that generally holds all "finished" 
+commits. When a separate branch is created, it is based on another branch that acts as the starting point. When you 
+commit to a new branch, those changes are only visible to teammates who have checked out your branch. Branches can then 
+be merged back together to have a complete set of changes, when the work is done.
+
+This is really useful especially after software is released. Let's say we have an extremely popular mobile game 
+available in both the Apple App Store and the Google Play Store, and we have an entirely new user interface being 
+developed, and new missions being added to the story. But, suddenly we find a critical bug that prevents half of our 
+player base from actually loading the game. We'll need to release a new version to fix the bug, but we probably don't 
+want to release the new user interface and the new missions yet. If we've been using branches, we probably have a branch
+that has the code in the same state as the app available to our players, a branch where the new user interface is being
+developed, and another branch with our new missions. Since we were careful and used branches we can easily develop a 
+bug-fix only against the code in use by players, without affecting the developers working on our new features. We'll 
+then merge the bug-fix into our development branches and not have to duplicate that work.
+
+This probably sounds somewhat confusing, and a little overwhelming but we'll run through some examples.
+
+### Creating a New Branch
+Now let's look at creating a branch based off your `master` branch. First, lets look at the current state of the 
+repository. 
+
+```bash
+> git log
+```
+
+You should now see a list of commits, and who committed them. The `git log` command is helpful for seeing the most 
+recent commits. Now we'll create our new branch:
+
+```bash
+> git checkout -b my_first_branch
+```
+
+You should see a message confirming you just switched to a new branch called 'my_first_branch'. Now let's make sure
+things haven't changed. If you run `git log` again, everything should still be the same. Now let's add a commit to this 
+new branch. Go ahead and edit `src/Main.java` with the following:
+
+```java
+// Just a simple Hello World example
+
+public class Main {
+  
+  public static void main(String[] args) {
+    System.out.println("Hello from my new branch!");
+  }
+}
+```
+
+Now go ahead and commit these changes in the same way you did before. If you run `git log` now, you'll see that your 
+commit is first on the list. Now let's jump back to the master branch:
+
+```bash
+> git checkout master
+```
+
+Now that we've switched back to the `master` branch, go ahead and run `git log` again, and you'll see your commit 
+doesn't appear. We've now see that changes to the `master` and `my_first_branch` branches are kept separate. 
+
+
+### Merging Branches
+Now that you've created your first branch and added a commit, let's add your changes to the `master` branch. To bring
+changes on a different branch into another branch you use the `git merge` command. To merge your branch into `master` 
+run the following:
+
+```bash
+> git merge my_first_branch
+```
+
+Since this is a trivial merge, you should just see a short description of the changes to the repository, and now if you
+run `git log` you should see your commit on the `master` branch. 
